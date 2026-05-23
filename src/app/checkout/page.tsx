@@ -11,6 +11,14 @@ import Footer from '@/components/Footer'
 import StripeProvider from '@/components/StripeProvider'
 import PaymentForm from '@/components/PaymentForm'
 
+const countries = [
+  { code: 'US', name: 'United States' },
+  { code: 'CA', name: 'Canada' },
+  { code: 'GB', name: 'United Kingdom' },
+  { code: 'AU', name: 'Australia' },
+  { code: 'NG', name: 'Nigeria' },
+]
+
 const CheckoutPage = () => {
   const { items, getCartTotal } = useCart()
   const router = useRouter()
@@ -22,7 +30,7 @@ const CheckoutPage = () => {
     address: '',
     city: '',
     postalCode: '',
-    country: '',
+    country: 'NG', // Default to Nigeria
     phone: '',
   })
 
@@ -45,7 +53,7 @@ const CheckoutPage = () => {
     return null
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
@@ -222,7 +230,7 @@ const CheckoutPage = () => {
                           onChange={handleInputChange}
                           required
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-inter text-sm"
-                          placeholder="oreoluwadavid08@gmail.com"
+                          placeholder="your.email@example.com"
                         />
                       </div>
                       
@@ -239,7 +247,7 @@ const CheckoutPage = () => {
                             onChange={handleInputChange}
                             required
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-inter text-sm"
-                            placeholder="Oreoluwa"
+                            placeholder="Enter your first name"
                           />
                         </div>
                         
@@ -255,7 +263,7 @@ const CheckoutPage = () => {
                             onChange={handleInputChange}
                             required
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-inter text-sm"
-                            placeholder="David"
+                            placeholder="Enter your last name"
                           />
                         </div>
                       </div>
@@ -272,7 +280,7 @@ const CheckoutPage = () => {
                           onChange={handleInputChange}
                           required
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-inter text-sm"
-                          placeholder="+234 700 000 0000"
+                          placeholder="e.g., +1 234 567 8900"
                         />
                       </div>
                     </div>
@@ -297,7 +305,7 @@ const CheckoutPage = () => {
                           onChange={handleInputChange}
                           required
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-inter text-sm"
-                          placeholder="12 Ojo Street"
+                          placeholder="e.g., 123 Main Street"
                         />
                       </div>
                       
@@ -314,7 +322,7 @@ const CheckoutPage = () => {
                             onChange={handleInputChange}
                             required
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-inter text-sm"
-                            placeholder="Lagos"
+                            placeholder="Enter your city"
                           />
                         </div>
                         
@@ -329,7 +337,7 @@ const CheckoutPage = () => {
                             value={formData.postalCode}
                             onChange={handleInputChange}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-inter text-sm"
-                            placeholder="100011"
+                            placeholder="Enter your postal code"
                           />
                         </div>
                       </div>
@@ -338,16 +346,20 @@ const CheckoutPage = () => {
                         <label htmlFor="country" className="block font-inter text-sm font-medium text-primary mb-2">
                           Country *
                         </label>
-                        <input
-                          type="text"
+                        <select
                           id="country"
                           name="country"
                           value={formData.country}
                           onChange={handleInputChange}
                           required
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-inter text-sm"
-                          placeholder="Nigeria"
-                        />
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-inter text-sm bg-white"
+                        >
+                          {countries.map((country) => (
+                            <option key={country.code} value={country.code}>
+                              {country.name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </div>
